@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Garden Incremental - Rarity Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Custom "Hell" Theme Styles */
+        /* Dark Navy Garden Theme */
         body {
-            background-color: #050000;
+            background-color: #0b0f19;
             background-image: 
-                radial-gradient(circle at 50% 0%, #3a0000 0%, transparent 70%),
-                radial-gradient(circle at 10% 90%, #1a0000 0%, transparent 50%);
-            color: #ffcccc;
+                radial-gradient(circle at 15% 15%, #131c31 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, #0d1a15 0%, transparent 40%);
+            color: #e2e8f0;
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
         }
@@ -23,202 +22,182 @@
             font-family: 'Cinzel', serif;
         }
 
-        .hell-card {
-            background: rgba(20, 0, 0, 0.85);
-            border: 1px solid #5c0000;
-            box-shadow: 0 0 20px rgba(255, 69, 0, 0.1), inset 0 0 50px rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
+        .garden-card {
+            background: rgba(15, 23, 36, 0.7);
+            border: 1px solid #1e293b;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
         }
 
-        .input-hell {
-            background: #0a0000;
-            border: 1px solid #4a0404;
-            color: #ff8800;
+        .input-garden {
+            background: #060913;
+            border: 1px solid #334155;
+            color: #facc15;
             transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        .input-hell:focus {
+        .input-garden:focus {
             outline: none;
-            border-color: #ff4500;
-            box-shadow: 0 0 10px rgba(255, 69, 0, 0.4);
+            border-color: #f59e0b;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 0 0 2px rgba(245, 158, 11, 0.2);
         }
 
-        .btn-hell {
-            background: linear-gradient(45deg, #800000, #ff4500);
+        /* Green Garden Button */
+        .btn-garden {
+            background: linear-gradient(to bottom, #84cc16, #4d7c0f);
             color: white;
-            border: 1px solid #ffaa00;
+            border: 1px solid #3f6212;
+            border-top: 1px solid #a3e635;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            transition: transform 0.1s, box-shadow 0.3s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
 
-        .btn-hell:hover {
-            box-shadow: 0 0 15px #ff4500;
+        .btn-garden:hover {
+            background: linear-gradient(to bottom, #a3e635, #65a30d);
+            box-shadow: 0 0 15px rgba(132, 204, 22, 0.4);
             transform: translateY(-1px);
         }
 
-        .btn-hell:active {
+        .btn-garden:active {
             transform: translateY(1px);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
 
-        /* Animated Title Glow */
+        /* Stacked Gradient Title exactly like the screenshot */
         .title-glow {
-            background: linear-gradient(to bottom, #ffaa00, #ff4500, #8b0000);
+            background: linear-gradient(to bottom, #fde047 0%, #f97316 45%, #ef4444 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0px 4px 10px rgba(255, 69, 0, 0.3);
+            text-shadow: 0px 4px 20px rgba(249, 115, 22, 0.2);
+            line-height: 1.1;
         }
 
         /* Result Animation */
-        @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 69, 0, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 69, 0, 0); }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(132, 204, 22, 0.3); }
+            70% { box-shadow: 0 0 0 10px rgba(132, 204, 22, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(132, 204, 22, 0); }
         }
         
         .result-box {
-            background: linear-gradient(180deg, #1a0505 0%, #2d0a0a 100%);
-            border-left: 4px solid #ff4500;
+            background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+            border-left: 4px solid #84cc16;
+            border-right: 1px solid #1e293b;
+            border-top: 1px solid #1e293b;
+            border-bottom: 1px solid #1e293b;
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1a0000;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #5c0000;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ff4500;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b0f19; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
     </style>
 </head>
 <body class="p-4 md:p-8 flex items-center justify-center">
 
-    <div class="max-w-md w-full mx-auto hell-card rounded-2xl p-6 md:p-8 relative overflow-hidden">
+    <div class="max-w-md w-full mx-auto garden-card rounded-2xl p-6 md:p-8 relative">
         
-        <!-- Decoration: Floating Embers (CSS only representation) -->
-        <div class="absolute top-0 right-0 w-20 h-20 bg-orange-600 blur-[80px] opacity-20 pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 w-32 h-32 bg-red-900 blur-[100px] opacity-30 pointer-events-none"></div>
-
-        <!-- Header -->
-        <div class="text-center mb-8 relative z-10">
-            <h1 class="text-4xl md:text-5xl font-black title-glow mb-2 uppercase tracking-tight">Rarity</h1>
-            <h2 class="text-xl md:text-2xl text-orange-700 tracking-widest font-bold uppercase border-b-2 border-red-900 pb-2 inline-block">Calculator</h2>
-            <p class="text-xs text-red-400 mt-2 opacity-80 uppercase tracking-wider">Garden Incremental</p>
+        <!-- Header area with custom SVG Icon -->
+        <div class="mb-8 flex flex-col relative">
+            <div class="flex items-center mb-2">
+                <!-- Flame/Tree Logo Icon -->
+                <svg width="40" height="48" viewBox="0 0 40 50" class="mr-4 drop-shadow-lg shrink-0">
+                    <path d="M20 50 C 0 50 0 25 20 10 C 40 25 40 50 20 50 Z" fill="#ea580c" opacity="0.9" />
+                    <path d="M20 50 C 5 50 5 30 20 18 C 35 30 35 50 20 50 Z" fill="#f97316" />
+                    <path d="M20 2 L 6 22 L 14 22 L 8 40 L 32 40 L 26 22 L 34 22 Z" fill="#22c55e" stroke="#166534" stroke-width="1"/>
+                </svg>
+                
+                <h1 class="text-3xl md:text-4xl font-black title-glow uppercase tracking-wide flex flex-col">
+                    <span>Garden</span>
+                    <span>Incremental</span>
+                    <span>Calculator</span>
+                </h1>
+            </div>
+            <p class="text-sm text-slate-400 mt-1 ml-[56px]">Calculate your luck and discovery rates</p>
         </div>
 
         <!-- Form -->
-        <div class="space-y-5 relative z-10">
+        <div class="space-y-5">
             
             <!-- Target Input -->
             <div>
-                <label class="block text-orange-200 text-sm font-bold mb-2 uppercase tracking-wider">
+                <label class="block text-slate-300 text-xs font-bold mb-2 uppercase tracking-wider">
                     Target Value (e.g. 700T, 20Qd)
                 </label>
                 <input type="text" id="targetInput" placeholder="Ex: 700T" 
-                    class="input-hell w-full p-4 rounded-lg text-lg font-mono placeholder-red-900/50">
+                    class="input-garden w-full p-3.5 rounded-lg text-lg font-mono placeholder-slate-600">
             </div>
 
             <!-- Luck Input -->
             <div>
-                <label class="block text-orange-200 text-sm font-bold mb-2 uppercase tracking-wider">
+                <label class="block text-slate-300 text-xs font-bold mb-2 uppercase tracking-wider">
                     Your Luck (e.g. 233M, 1.5B)
                 </label>
                 <input type="text" id="luckInput" placeholder="Ex: 233M" 
-                    class="input-hell w-full p-4 rounded-lg text-lg font-mono placeholder-red-900/50">
+                    class="input-garden w-full p-3.5 rounded-lg text-lg font-mono placeholder-slate-600">
             </div>
 
-            <!-- Advanced Settings (Collapsible) -->
+            <!-- Advanced Settings -->
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-red-400 text-xs font-bold mb-1 uppercase">Bulk</label>
+                    <label class="block text-slate-400 text-xs font-bold mb-1 uppercase tracking-wider">Bulk</label>
                     <input type="number" id="bulkInput" value="50" 
-                        class="input-hell w-full p-2 rounded text-center font-mono">
+                        class="input-garden w-full p-2.5 rounded text-center font-mono">
                 </div>
                 <div>
-                    <label class="block text-red-400 text-xs font-bold mb-1 uppercase">Speed (sec)</label>
+                    <label class="block text-slate-400 text-xs font-bold mb-1 uppercase tracking-wider">Speed (sec)</label>
                     <input type="number" id="timeInput" value="0.25" step="0.01" 
-                        class="input-hell w-full p-2 rounded text-center font-mono">
+                        class="input-garden w-full p-2.5 rounded text-center font-mono">
                 </div>
             </div>
 
             <!-- Action Button -->
             <button onclick="calculateTime()" 
-                class="btn-hell w-full py-4 rounded-xl font-black text-xl tracking-widest uppercase mt-4 fantasy-font">
+                class="btn-garden w-full py-4 rounded-xl font-bold text-xl tracking-widest uppercase mt-2 fantasy-font">
                 Calculate Time
             </button>
 
             <!-- Error Message -->
-            <div id="errorMsg" class="hidden text-red-500 text-center text-sm font-bold bg-black/50 p-2 rounded border border-red-800"></div>
+            <div id="errorMsg" class="hidden text-rose-400 text-center text-sm font-bold bg-rose-950/50 p-3 rounded border border-rose-900 mt-4"></div>
 
             <!-- Result Display -->
             <div id="resultCard" class="hidden result-box rounded-lg p-5 mt-6 transition-all duration-500">
-                <p class="text-red-400 text-xs uppercase tracking-widest mb-1">Time to Unlock</p>
-                <div id="timeResult" class="text-2xl md:text-3xl font-mono font-bold text-white text-shadow-md leading-tight break-words">
+                <p class="text-slate-400 text-xs uppercase tracking-widest mb-1 font-semibold">Time to Unlock</p>
+                <div id="timeResult" class="text-2xl md:text-3xl font-mono font-bold text-white text-shadow-md leading-tight break-words py-1">
                     <!-- Result goes here -->
                 </div>
-                <div class="mt-3 pt-3 border-t border-red-900/50 flex justify-between items-center text-xs text-orange-500/70">
-                    <span id="rateDisplay">Rate: 0/sec</span>
-                    <span>SUCCESS</span>
+                <div class="mt-3 pt-3 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400 font-medium">
+                    <span id="rateDisplay">Speed: 0/sec</span>
+                    <span class="text-lime-500">SUCCESS</span>
                 </div>
             </div>
 
             <!-- Suffix Legend -->
-            <div class="mt-8 text-[10px] text-red-900 text-center font-mono uppercase">
+            <div class="mt-6 text-[11px] text-slate-500 text-center font-mono uppercase bg-slate-900/50 p-2 rounded-lg border border-slate-800">
                 Supported: k, M, B, T, Qd, Qn, sx, Sp, Oc, N, De, UDe, TDe...
             </div>
         </div>
     </div>
 
     <script>
-        // Suffix Multipliers for Garden Incremental
         const multipliers = {
-            'k': 1e3,
-            'm': 1e6,
-            'b': 1e9,
-            't': 1e12,
-            'qd': 1e15,
-            'qn': 1e18,
-            'sx': 1e21,
-            'sp': 1e24,
-            'oc': 1e27,
-            'n': 1e30,  // Nonillion
-            'no': 1e30, 
-            'de': 1e33, // Decillion
-            'ude': 1e36,
-            'dde': 1e39,
-            'tde': 1e42,
-            'qade': 1e45,
-            'qide': 1e48,
-            'sxde': 1e51,
-            'spde': 1e54,
-            'ocde': 1e57,
-            'nvde': 1e60,
-            'vg': 1e63
+            'k': 1e3, 'm': 1e6, 'b': 1e9, 't': 1e12, 'qd': 1e15, 'qn': 1e18,
+            'sx': 1e21, 'sp': 1e24, 'oc': 1e27, 'n': 1e30, 'no': 1e30, 
+            'de': 1e33, 'ude': 1e36, 'dde': 1e39, 'tde': 1e42, 'qade': 1e45,
+            'qide': 1e48, 'sxde': 1e51, 'spde': 1e54, 'ocde': 1e57, 'nvde': 1e60, 'vg': 1e63
         };
 
         function parseGameNumber(input) {
             if (!input) return null;
             input = input.trim().toLowerCase();
-            
-            // Check if it's just a number
             if (!isNaN(input)) return parseFloat(input);
-
-            // Regex to match number and suffix
-            // Matches: 100, 100.5, 100k, 100TDe, etc.
             const match = input.match(/^([\d.]+)\s*([a-z]+)$/);
-            
             if (match) {
                 const value = parseFloat(match[1]);
                 const suffix = match[2];
-                
-                if (multipliers.hasOwnProperty(suffix)) {
-                    return value * multipliers[suffix];
-                }
+                if (multipliers.hasOwnProperty(suffix)) return value * multipliers[suffix];
             }
             return null;
         }
@@ -232,9 +211,6 @@
             const h = Math.floor((seconds % 86400) / 3600);
             const m = Math.floor((seconds % 3600) / 60);
             const s = Math.floor(seconds % 60);
-
-            // Logic to show only the 2 most significant units to keep it clean
-            // e.g., "1y 200d" instead of "1y 200d 4h 3m 2s"
             
             if (y > 0) return `${y}y ${d}d`;
             if (d > 0) return `${d}d ${h}h`;
@@ -261,11 +237,9 @@
             const timeDisplay = document.getElementById('timeResult');
             const rateDisplay = document.getElementById('rateDisplay');
 
-            // Parsing
             const targetVal = parseGameNumber(targetStr);
             const luckVal = parseGameNumber(luckStr);
 
-            // Validation
             if (targetVal === null || luckVal === null) {
                 errorDiv.innerText = "Invalid format! Use format like: 700T, 20Qd, 233M";
                 errorDiv.classList.remove('hidden');
@@ -275,21 +249,17 @@
 
             errorDiv.classList.add('hidden');
 
-            // Calculation
-            // Formula: Value Per Second = (Luck * Bulk) / TimePerRoll
-            const rollsPerSec = 1 / timePerRoll; // e.g., 4 rolls/sec
+            const rollsPerSec = 1 / timePerRoll;
             const valuePerSec = luckVal * bulk * rollsPerSec;
-            
             const totalSeconds = targetVal / valuePerSec;
 
-            // Display
             timeDisplay.innerText = formatTime(totalSeconds);
             rateDisplay.innerText = `Speed: ${formatNumber(valuePerSec)}/sec`;
             
             resultCard.classList.remove('hidden');
             resultCard.style.animation = 'none';
-            resultCard.offsetHeight; /* trigger reflow */
-            resultCard.style.animation = 'pulse-red 1s';
+            resultCard.offsetHeight; 
+            resultCard.style.animation = 'pulse-green 1s';
         }
     </script>
 </body>
