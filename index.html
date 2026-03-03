@@ -143,7 +143,7 @@
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-slate-400 text-xs font-bold mb-1 uppercase tracking-wider">Bulk</label>
-                    <input type="number" id="bulkInput" value="50" 
+                    <input type="number" id="bulkInput" value="55" 
                         class="input-garden w-full p-2.5 rounded text-center font-mono">
                 </div>
                 <div>
@@ -229,7 +229,7 @@
         function calculateTime() {
             const targetStr = document.getElementById('targetInput').value;
             const luckStr = document.getElementById('luckInput').value;
-            const bulk = parseFloat(document.getElementById('bulkInput').value) || 50;
+            const bulk = parseFloat(document.getElementById('bulkInput').value) || 55;
             const timePerRoll = parseFloat(document.getElementById('timeInput').value) || 0.25;
             
             const errorDiv = document.getElementById('errorMsg');
